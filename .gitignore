@@ -1,0 +1,11 @@
+node_modules
+
+backend_dist
+frontend_dist
+
+coverage
+tests/test_files
+
+asset
+temp
+log

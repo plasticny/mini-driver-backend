@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "outDir": "./backend_dist/",
+    "removeComments": true
+  },
+  "include": ["./src/"],
+  "exclude": ["node_modules"]
+}
