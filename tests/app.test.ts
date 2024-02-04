@@ -126,6 +126,7 @@ describe('test routering', () => {
   test('webpage api', async function () {
     const get_file_in_dir_mock = jest.spyOn(WebpageApi, 'getFileInDir').mockImplementation(jest_fn_res)
     const get_admin_pass_mock = jest.spyOn(WebpageApi, 'getAdminPass').mockImplementation(jest_fn_res)
+    const check_admin_pass_mock = jest.spyOn(WebpageApi, 'checkAdminPass').mockImplementation(jest_fn_res)
     const check_admin_mock = jest.spyOn(WebpageApi, 'checkAdmin').mockImplementation(jest_fn_res)
     const get_server_qr_url_mock = jest.spyOn(WebpageApi, 'getServerQrUrl').mockImplementation(jest_fn_res)
     const get_folder_info_mock = jest.spyOn(WebpageApi, 'getFolderInfo').mockImplementation(jest_fn_res)
@@ -139,6 +140,9 @@ describe('test routering', () => {
     await supertest(app.app).get('/w/getAdminPass')
     expect(get_admin_pass_mock).toHaveBeenCalledTimes(1)
 
+    await supertest(app.app).get('/w/checkAdminPass')
+    expect(check_admin_pass_mock).toHaveBeenCalledTimes(1)
+
     await supertest(app.app).get('/w/checkAdmin')
     expect(check_admin_mock).toHaveBeenCalledTimes(1)
 
@@ -148,8 +152,8 @@ describe('test routering', () => {
     await supertest(app.app).get('/w/getFolderInfo')
     expect(get_folder_info_mock).toHaveBeenCalledTimes(1)
 
-    expect(whitelist_mock).toHaveBeenCalledTimes(5)
-    expect(logger_mock).toHaveBeenCalledTimes(5)
+    expect(whitelist_mock).toHaveBeenCalledTimes(6)
+    expect(logger_mock).toHaveBeenCalledTimes(6)
   })
 
   test('websocket', async function () {

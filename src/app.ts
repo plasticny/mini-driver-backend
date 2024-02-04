@@ -51,6 +51,7 @@ export default class {
       .use('/w', express.Router()
         .get('/getFileInDir',   webpage_api.getFileInDir)
         .get('/getAdminPass',   webpage_api.getAdminPass)
+        .get('/checkAdminPass', webpage_api.checkAdminPass)
         .get('/checkAdmin',     webpage_api.checkAdmin)
         .get('/getServerQrUrl', webpage_api.getServerQrUrl)
         .get('/getFolderInfo',  webpage_api.getFolderInfo)

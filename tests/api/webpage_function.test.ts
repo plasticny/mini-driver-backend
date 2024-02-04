@@ -99,6 +99,35 @@ describe('test get admin password function', () => {
   })
 })
 
+describe('test check_admin_pass', () => {
+  const send_mock = jest.fn()
+  const res : Partial<Response> = {
+    status(status) {
+      return this
+    },
+    send(data) {
+      send_mock(data)
+      return this
+    }
+  }
+
+  test('correct admin pw', () => {
+    const req : Partial<Request> = {
+      query: { pw: AUTH_PW }
+    }
+    wf.checkAdminPass(req as Request, res as Response)
+    expect(send_mock).toHaveBeenCalledWith(true)
+  })
+
+  test('wrong admin pw', () => {
+    const req : Partial<Request> = {
+      query: { pw: AUTH_PW+'.' }
+    }
+    wf.checkAdminPass(req as Request, res as Response)
+    expect(send_mock).toHaveBeenCalledWith(false)
+  })
+})
+
 describe('test check admin function', () => {
   const send_mock = jest.fn((data) => data)
 

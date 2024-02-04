@@ -19,6 +19,9 @@ export function getFileInDir(req : Request, res : Response) {
 export function getAdminPass(req : Request, res : Response) {
   res.status(200).send({ admin_pass: req.query.pw == AUTH_PW ? RET_PW : false })
 }
+export function checkAdminPass(req : Request, res : Response) {
+  res.status(200).send(req.query.pw == AUTH_PW)
+}
 
 /* check if the request ip is admin's ip */
 export function checkAdmin(req : Request, res : Response) {
