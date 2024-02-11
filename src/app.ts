@@ -9,7 +9,7 @@ import * as Auth from './auth'
 
 import * as file_api from './api/file_operation'
 import * as webpage_api from './api/webpage_function'
-import { ws_service } from './ws/file_list_ws'
+import { ws_request_handler } from './ws/file_list_ws'
 
 export default class {
   app : expressWs.Application
@@ -58,7 +58,7 @@ export default class {
       )
   
       // websocket for update client file list
-      .ws('/ws/fileList', ws_service.request_handler)
+      .ws('/ws/fileList', ws_request_handler)
   
     return this._start_listen()
   }

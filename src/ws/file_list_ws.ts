@@ -60,7 +60,6 @@ export class WsService {
     ws_data.ws.send(JSON.stringify(fm.read_folder(target_id)))
   }
 
-
   /* ====== Request Handler ====== */
   /* handle a ws request from client */
   public request_handler (ws: WebSocket, req: Request) {
@@ -69,17 +68,18 @@ export class WsService {
     // store ws
     const ws_data : WSType = { ws, folder_id: parseInt(String(req.query.id)) }
     this.__add_ws(ws_data)
-  
+
     ws
       // event handlers
-      .on('message', (msg : string) => {
+      .on('message', function (msg : string) {
         log(`WS ${req.ip} ${decodeURI(req.url)} ${msg}`)
         this.__on_ws_message(ws_data, msg)
-      })
-      .on('close', () => { this.__remove_ws(ws_data) })
+      }.bind(this))
+      .on('close', function () { this.__remove_ws(ws_data) }.bind(this))
       // send file list
-      .send(JSON.stringify(fm.read_folder(ws_data.folder_id)))  
+      .send(JSON.stringify(fm.read_folder(ws_data.folder_id)))
   }
+
   protected __on_ws_message (ws_data: WSType, msg : string) {
     const data : ReceiveMsgType = JSON.parse(msg)
     
@@ -88,7 +88,6 @@ export class WsService {
     }
   }
   /* ====== Request Handler ====== */
-
 
   public broadcast(folder_id : number) {
     const ws_set = this.__get_folder_ws_set(folder_id)
@@ -102,3 +101,10 @@ export class WsService {
   }
 }
 export const ws_service = new WsService()
+
+export function ws_request_handler (ws: WebSocket, req: Request) {
+  // if directly call ws_service's request_handler in the router,
+  // `this` will somehow be undefined in the request_handler
+  // so use a wrapper function to call ws_service's request_handler
+  ws_service.request_handler(ws, req)
+}
