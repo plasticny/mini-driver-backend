@@ -86,7 +86,7 @@ describe('test get admin password function', () => {
     }
     wf.getAdminPass(req as Request, res as Response)
     expect(status_mock).toHaveBeenCalledWith(200)
-    expect(send_mock).toHaveBeenCalledWith({ admin_pass: RET_PW })
+    expect(send_mock).toHaveBeenCalledWith(RET_PW)
   })
 
   test('wrong auth pw', () => {
@@ -95,7 +95,7 @@ describe('test get admin password function', () => {
     }
     wf.getAdminPass(req as Request, res as Response)
     expect(status_mock).toHaveBeenCalledWith(200)
-    expect(send_mock).toHaveBeenCalledWith({ admin_pass: false })
+    expect(send_mock).toHaveBeenCalledWith(false)
   })
 })
 
@@ -113,7 +113,7 @@ describe('test check_admin_pass', () => {
 
   test('correct admin pw', () => {
     const req : Partial<Request> = {
-      query: { pw: AUTH_PW }
+      query: { pw: RET_PW }
     }
     wf.checkAdminPass(req as Request, res as Response)
     expect(send_mock).toHaveBeenCalledWith(true)
@@ -121,7 +121,7 @@ describe('test check_admin_pass', () => {
 
   test('wrong admin pw', () => {
     const req : Partial<Request> = {
-      query: { pw: AUTH_PW+'.' }
+      query: { pw: RET_PW+'.' }
     }
     wf.checkAdminPass(req as Request, res as Response)
     expect(send_mock).toHaveBeenCalledWith(false)
