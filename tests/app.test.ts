@@ -10,14 +10,6 @@ import * as FileApi from '../src/api/file_operation'
 import * as WebpageApi from '../src/api/webpage_function'
 import { ws_service } from '../src/ws/file_list_ws'
 
-
-jest.mock('../src/ws/file_list_ws', () => ({
-  ws_service: {
-    request_handler: jest.fn()
-  }
-}))
-
-
 class test_app extends App {
   public _get_env () : string {
     return super._get_env()
@@ -158,6 +150,7 @@ describe('test routering', () => {
 
   test('websocket', async function () {
     const request_handler_spy = jest.spyOn(ws_service, 'request_handler')
+    request_handler_spy.mockImplementation(jest.fn())
 
     const app = new test_app()
     server = app.start()
@@ -167,6 +160,8 @@ describe('test routering', () => {
     expect(request_handler_spy).toHaveBeenCalledTimes(1)
     expect(whitelist_mock).toHaveBeenCalledTimes(1)
     expect(logger_mock).toHaveBeenCalledTimes(1)
+
+    request_handler_spy.mockRestore()
   })
 })
 
